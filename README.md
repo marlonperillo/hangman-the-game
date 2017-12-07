@@ -10,7 +10,7 @@ gameInstance = new HangmanGame("toy story", maxGuesses, maskCharacter);
 makeGuess(gameInstance, 'T');
 ```
 
-### see hangman attributes
+### see hangman game instance attributes
 ```
 {
 correctGuessedLetters:["T"],
