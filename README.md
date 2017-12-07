@@ -12,7 +12,8 @@ makeGuess(gameInstance, 'T');
 
 ### see hangman attributes
 ```
-{correctGuessedLetters:["T"],
+{
+correctGuessedLetters:["T"],
 correctGuessesCount:1,
 countToLose:5,
 countToWin:5,
@@ -20,5 +21,6 @@ guessedLettersList:["T"],
 mask:"#",
 playerVisibility:"T## #T###",
 toGuess:"TOY STORY",
-totalGuesses:1;}
+totalGuesses:1
+};
 ```
