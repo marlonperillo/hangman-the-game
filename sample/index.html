@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Hang Man jBuddies Edition</title>
+  <meta name="description" content="hangman game for productivity">
+  <meta name="author" content="the buddies of jBuddies">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600,600i" rel="stylesheet">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+	<style>
+	.letter{width:2.5em}
+	.correct{background-color: #CFC;}
+	.mistake{background-color: #F99}
+	#the-buttons *{
+	width: 2.5em;
+	margin-left: 3px;
+					margin-right: 3px;
+	}
+	</style>
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+  <h1>Hang Man</h1>
+    <div class="row">
+		
+		<div class="twelve columns">
+			<div id="guess-holder">
+			</div>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="twelve columns">
+			
+			<div id="the-buttons">
+			
+			</div>
+			</div>
+			
+		</div>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <script type="text/javascript" src="scripts/hangman.js"></script>
+  <script>
+
+	var gameInstance = new HangmanGame("toy story", 5, "#");
+
+	var guessHolder = document.getElementById("guess-holder");
+	var theButtons = document.getElementById("the-buttons");
+	var englishAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	
+
+	for(i = 0; i < englishAlphabet.length; i++){
+		var guessButton = document.createElement("button");
+		currentLetter = englishAlphabet.charAt(i);
+		guessButton.setAttribute("id", currentLetter );
+		guessButton.setAttribute("class", "button-primary" );
+		guessButton.innerText= currentLetter;
+		
+		guessButton.addEventListener("click", function(e){
+			clickGuess(e.target.id);
+		},false);
+		
+		theButtons.appendChild(guessButton);
+	}
+
+	var word = gameInstance.toGuess
+	for(i = 0; i < word.length; i++){
+	  if(word.charAt(i) == ' ')
+	  {
+		  guessHolder.innerHTML += "&nbsp";
+		  guessHolder.innerHTML += "&nbsp";
+		  guessHolder.innerHTML += "&nbsp";
+		  guessHolder.innerHTML += "&nbsp";
+		  guessHolder.innerHTML += "&nbsp";
+		  guessHolder.innerHTML += "&nbsp";
+	  
+	  }
+	  else if( ! englishAlphabet.includes(word.charAt(i) 	) )
+	  {
+			var letter = document.createElement("input");
+			letter.setAttribute("class", "u-full-width letter");
+			letter.setAttribute("id", "secret" + i);
+			letter.setAttribute("type", "text");
+			letter.setAttribute("placeholder", "");
+			letter.setAttribute("disabled", "disabled");
+		
+			letter.setAttribute("placeholder", word.charAt(i))
+		
+			guessHolder.appendChild(letter);
+	  }
+	  else
+	  {
+		//<input id="secret0" class="u-full-width letter" type="text" placeholder="" value="A" disabled>
+			var letter = document.createElement("input");
+			letter.setAttribute("class", "u-full-width letter");
+			letter.setAttribute("id", "secret" + i);
+			letter.setAttribute("type", "text");
+			letter.setAttribute("placeholder", "");
+			letter.setAttribute("disabled", "disabled");
+			guessHolder.appendChild(letter);
+	  }
+	}
+
+	function clickGuess(letter){
+		var clickedButton = document.getElementById(letter);
+		clickedButton.setAttribute("disabled", "disabled");
+
+		var actionResult = makeGuess(gameInstance,letter);
+		switch(actionResult){
+			case 0:
+				clickedButton.setAttribute("class", "correct");
+
+				for(i = 0; i < gameInstance.playerVisibility.length; i++){
+					if(gameInstance.playerVisibility.charAt(i) != gameInstance.mask && gameInstance.playerVisibility.charAt(i) != " "){
+						var obj = document.getElementById("secret" + i);
+						obj.setAttribute("placeholder", gameInstance.playerVisibility.charAt(i));
+					}
+				}
+				break;
+			case 1:
+				clickedButton.setAttribute("class", "mistake" );
+				break;
+			case -1:break;;
+			default: break;
+		}
+
+		switch(isGameOver(gameInstance)){
+			case 0:alert("you win!!");break;
+			case 1:alert("G over");break;
+			case -1:break;
+			default:break;
+		}
+	}
+	
+  </script>
+</body>
+</html>
